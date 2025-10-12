@@ -49,6 +49,7 @@ void qpop(){
     return;
 }
 
+//雙指標是為了不要再複製的指標底下做事（把該指標自己的address丟進去）
 void init_queue(struct Queue **Q){
     *Q = malloc(sizeof(struct Queue));
     (*Q)->head = NULL; //注意(*Q)，->優先級比*高
