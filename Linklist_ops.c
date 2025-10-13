@@ -47,6 +47,7 @@ void print_list(struct ListNode *head){
         printf("%d ", ptr->data);
         ptr = ptr->next;
     }
+    printf("\n");
 }
 
 //刪除指定數值的節點
@@ -112,6 +113,24 @@ void free_list(struct ListNode *head){
     }
 }
 
+//刪除重複節點
+struct ListNode* deleteDuplicates(struct ListNode *head){
+    struct ListNode *cur = head;
+    if (cur == NULL){
+        return NULL;
+    }
+    while (cur != NULL && cur->next != NULL){
+        if (cur->data == cur->next->data){
+            struct ListNode *tmp = cur->next;
+            cur->next = cur->next->next;
+            free(tmp);
+            continue;
+        }
+        cur = cur->next;
+    }
+    return head;
+}
+
 //合併兩條Linklist
 struct ListNode* merge_TwoList(struct ListNode* list1, struct ListNode* list2){
     struct ListNode *dummy = NULL;
@@ -147,7 +166,12 @@ int main(){
 
     append_node(&list1, 1);
     append_node(&list1, 3);
+    append_node(&list1, 3);
     append_node(&list1, 5);
+    print_list(list1);
+    deleteDuplicates(list1);
+    print_list(list1);
+
 
     append_node(&list2, 2);
     append_node(&list2, 4);
