@@ -5,13 +5,13 @@
 #include <string.h>
 #include <stdint.h>
 
-/* ========================= 系統參數 ========================= */
+
 #define RING_SIZE         8
 #define WIFI_TX_PERIOD    300
 #define FW_PROC_TIME      150
 #define FW_IDLE_TIMEOUT   500
 
-/* ========================= 資料結構 ========================= */
+
 typedef struct {
     uint8_t  valid;
     uint32_t len;
@@ -29,7 +29,7 @@ typedef struct {
     char payload[64];
 } wifi_pkt_t;
 
-/* ========================= 全域變數 ========================= */
+
 static dma_ring_t tx_ring;  // Driver → FW
 static dma_ring_t rx_ring;  // FW → Driver
 
@@ -41,13 +41,13 @@ static volatile uint8_t irq_masked = 0;
 static volatile uint8_t fw_sleep = 0;
 static uint32_t sys_time_ms = 0;
 
-/* ========================= 輔助函式 ========================= */
+//log
 static inline void print_time(const char *tag)
 {
     printf("[T=%03lu ms] %s\n", (unsigned long)sys_time_ms, tag);
 }
 
-/* ========================= DMA Ring 操作 ========================= */
+//DMA buffer
 static int dma_push(dma_ring_t *r, uint8_t *buf, uint32_t len)
 {
     uint8_t next = (r->head + 1) % RING_SIZE;
@@ -72,7 +72,7 @@ static int dma_pop(dma_ring_t *r, uint8_t **buf, uint32_t *len)
     return 0;
 }
 
-/* ========================= SDIO 抽象層 ========================= */
+//模擬SDIO
 static int sdio_write(uint8_t *data, uint32_t len) {
     return dma_push(&tx_ring, data, len);
 }
@@ -81,7 +81,7 @@ static int sdio_read(uint8_t **buf, uint32_t *len) {
     return dma_pop(&rx_ring, buf, len);
 }
 
-/* ========================= Driver TX Task ========================= */
+
 static void vWiFiDriverTx(void *p)
 {
     uint32_t seq = 0;
@@ -113,7 +113,7 @@ static void vWiFiDriverTx(void *p)
     }
 }
 
-/* ========================= Firmware Task ========================= */
+
 static void vFirmwareProc(void *p)
 {
     uint8_t *buf;
@@ -165,7 +165,7 @@ static void vFirmwareProc(void *p)
     }
 }
 
-/* ========================= Bottom Half 處理 ========================= */
+//ISR後半段
 static void vDriverBottomHalf(void *p)
 {
     uint8_t *buf;
@@ -191,7 +191,7 @@ static void vDriverBottomHalf(void *p)
     }
 }
 
-/* ========================= main() ========================= */
+
 int main(void)
 {
     memset(&tx_ring, 0, sizeof(tx_ring));
