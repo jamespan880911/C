@@ -176,17 +176,35 @@ struct ListNode* merge_TwoList(struct ListNode* list1, struct ListNode* list2){
     return ans;
 }
 
+//面試寫的版本（比較亂但還是可以work，還是用原版可讀性比較高）
+struct ListNode* deleteDuplicates_2(struct ListNode *head){
+    struct ListNode *cur = head;
+    struct ListNode *pre = NULL;
+    if (head == NULL) return NULL;
+
+    while (cur && cur->next){
+        pre = cur;
+        cur = cur->next;
+        if (cur->data == pre->data){
+            pre->next = cur->next;
+            free(cur);
+            cur = pre;
+        }
+    }
+    return head;
+}
+
 int main(){
     struct ListNode *list1 = NULL;
     struct ListNode *list2 = NULL;
 
     append_node(&list1, 1);
-    append_node(&list1, 3);
-    append_node(&list1, 3);
+    append_node(&list1, 1);
+    append_node(&list1, 1);
     append_node(&list1, 5);
     print_list(list1);
-    reverseList(&list1);
-    print_list(list1);
+    //reverseList(&list1);
+    //print_list(list1);
     deleteDuplicates(list1);
     print_list(list1);
 

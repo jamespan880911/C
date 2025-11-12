@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 #define SET_BIT(x,n) ((x) |= (1 << (n)))
 #define CLEAR_BIT(x,n) ((x) &= ~(1 << (n))) //記得是～（因為其他bit不能動）
@@ -105,14 +106,245 @@ void append_node(struct ListNode **head, int data){
 }
 
 void print_list(struct ListNode *head){
+    struct ListNode *cur = head;
+    while (cur){
+        printf("%d ->", cur->data);
+        cur = cur->next;
+    }
+    printf("NULL\n");
+}
+
+void free_list(struct ListNode **head){
+    struct ListNode *cur = *head;
+    struct ListNode *pre = NULL;
+
+    while (cur){
+        pre = cur;
+        cur = cur->next;
+        free(pre);
+    }
+
+    *head = NULL;  //結束後要記得把頭設成null，不然會dangling pointer
+}
+
+struct ListNode* deleteDuplicates_2(struct ListNode *head){
+    struct ListNode *cur = head;
+    struct ListNode *pre = NULL;
+    if (head == NULL) return NULL;
+
+    while (cur && cur->next){
+        pre = cur;
+        cur = cur->next;
+        if (cur->data == pre->data){
+            pre->next = cur->next;
+            free(cur);
+            cur = pre;
+        }
+    }
+    return head;
+}
+
+struct ListNode* deleteDuplicates(struct ListNode *head){
+    struct ListNode *cur = head;
+    while (cur && cur->next){
+        if (cur->data == cur->next->data){
+            struct ListNode *tmp = cur->next;
+            cur->next = cur->next->next;
+            free(tmp);
+            continue;
+        }
+        cur = cur->next;
+    }
+    return head;
+}
+
+struct ListNode* merge_two_list(struct ListNode *list1, struct ListNode *list2){
+    struct ListNode *dum = NULL;
+    dum = malloc(sizeof(struct ListNode));
+    if (!dum) return NULL; //記得malloc完都要檢查有沒有heap成功
+    dum->next = NULL;
+    dum->data = 0;
+    struct ListNode *head = dum;
+
+    while(list1 && list2){
+        if(list1->data < list2->data){
+            head->next = list1;
+            list1 = list1->next;
+            head = head->next;
+        }
+        else{
+            head->next = list2;
+            list2 = list2->next;
+            head = head->next;
+        }
+    }
+
+    if (list1){
+        head->next = list1;
+    }
+
+    if (list2){
+        head->next = list2;
+    }
+    struct ListNode *result = dum->next;
+    free(dum);
+    return result;
+}
+
+
+void reverseList(struct ListNode **head){
+    struct ListNode *cur = *head;
+    struct ListNode *pre = NULL;
+    while (cur){
+        struct ListNode *tmp = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = tmp;
+    }
+    *head = pre;
+}
+
+void swap_1(int *a, int *b){
+    int tmp = 0;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void swap_2(int *a, int *b){
+    *a = (*a) ^ (*b);
+    *b = (*a) ^ (*b);
+    *a = (*a) ^ (*b);
+}
+
+void swap_char(char *a, char *b){
+    char tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+char *reverse_string(char *c){
+    int j = strlen(c) - 1;
+    int i = 0;
+    while (i < j){
+        swap_char(&c[i],&c[j]);
+        i++;
+        j--;
+    }
+    return c;
+}
+
+void find_prime(int n){
 
 }
 
-void 
+//不用+-做加法器
+int add (int a, int b){
+    while (b != 0){
+        int c = a & b;
+        a = a ^ b;
+        b = c << 1;
+    }
+    return a;
+}
+int main() {
+    int a = 7, b = 1;
+    printf("ans = %d\n", add(a, b));  
+    return 0;
+}
+
+// 取第N個bit的值
+int function_bit(unsigned char *a, int N){
+    int numByte = N / 8;
+    int numBit = N % 8;
+    int result = (a[numByte] >> numBit) & 1;
+    return result;
+}
+
+//用位置找出陣列中最大最小值，並交換
+void swap(int *val1,int *val2){
+    int tmp = *val1;
+    *val1 = *val2;
+    *val2 = tmp;
+}
+
+void Find_Value(int *arr, int len){
+    int *data1 = arr;
+    int *data2 = arr;
+
+    for (int i = 1; i < len; i++){
+        if (*(arr + i) > *data1){
+            *data1 = arr + i;
+        }
+        if (*(arr + i) < *data2){
+            *data2 = arr + i;
+        }
+    }
+
+    swap(data1, data2);
+}
+
+//用struct回傳min max
+
+struct result{
+    int max;
+    int min;
+};
+
+struct result find_min_max(int a, int b, int c){
+    struct result ans;
+
+    if (a > b){
+        if (a > c){
+            ans.max = a;
+        }
+        else {
+            ans.max = c;
+        }
+    }
+
+    else if (b > a){
+        if (b > c){
+            ans.max = b;
+        }
+        else{
+            ans.max = c;
+        }
+    }
+
+    if (a < b){
+        if (a < c){
+            ans.min = a;
+        }
+        else{
+            ans.min = c;
+        }
+    }
+
+    else if (b < a){
+        if (b < c){
+            ans.min = b;
+        }
+        else{
+            ans.min = c;
+        }
+    }
+
+    return ans;
+}
+
+//實作queue
+
 
 
 int main(){
     int *p = (int *)0x8265;
     *p = 0x2235;
+
+    struct result find = find_min_max(1, 2, 3);
+    printf("max is : %d\n ", find.max);
+    printf("min is : %d\n", find.min);
+
     return 0;
 }
