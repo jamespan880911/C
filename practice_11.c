@@ -496,8 +496,138 @@ struct ListNode *delete_node_index(struct ListNode **head, int index){
     return *head;
 }
 
+//翻轉Linklist
 
+void reverse_list(struct ListNode **head){
+    if (*head == NULL){
+        return;
+    }
+    struct ListNode *cur = *head;
+    struct ListNode *pre = NULL;
+    while (cur){
+        struct ListNode *tmp = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = tmp;
+    }
+    *head = pre; //要記得更新頭節點
+}
 
+//LinkList search
+struct ListNode *List_search(struct ListNode *head, int data){
+    struct ListNode *cur = head;
+    if (cur == NULL){
+        return NULL;
+    }
+    while (cur && (cur->data != data)){
+        cur = cur->next;
+    }
+    return cur;
+}
+
+//binary search
+int binary_search(int *arr, int len, int n){
+    int left = 0, right = len - 1, middle = (left + right) / 2;
+    while (left <= right){      //這樣對嗎？
+        if (n > arr[middle]){
+            left = middle + 1;
+        }
+        else if (n < arr[middle]){
+            right = middle - 1;
+        }
+        else if (n == arr[middle]){
+            return middle;
+        }
+
+        middle = (left + right) / 2;
+    }
+    return -1;
+}
+
+//sort練習
+void bubbleSort(int *arr, int len){
+    if (len < 2){
+        return;
+    }
+    for (int i = 0; i < len; i++){
+        int swap_flag = 0;
+        for (int j = 1; j < (len - i); j++){        //注意這邊的j < (len - i)是因為泡泡已經福到最後面了，每輪不用跑到那麼後面
+            if (arr[j-1] > arr[j]){
+                int tmp = arr[j];
+                arr[j] = arr[j-1];
+                arr[j-1] = tmp;
+                swap_flag = 1;
+            }
+        }
+        if (swap_flag == 0){
+            return;
+        }
+    }
+}
+
+//bubble 再練習
+void B(int *arr, int len){
+    if (len < 2){
+        return;
+    }
+    for (int i = 0; i < len; i++){
+        int flag = 0;
+        for (int j = 1; j < (len - i); j++){
+            if (arr[j-1] > arr[j]){
+                int tmp = arr[j];
+                arr[j] = arr[j-1];
+                arr[j-1] = tmp;
+                flag = 1;
+            }
+        }
+        if (flag == 0){
+            return;
+        }
+    }
+    return;
+}
+
+//delete再練習
+
+ void DE(struct ListNode **head, int pos){
+    struct ListNode *cur = *head;
+    struct ListNode *pre = NULL;
+
+    if (pos < 0){
+        return;
+    }
+    else if (pos == 0){
+        pre = cur;
+        cur = cur->next;
+        free(pre);
+        *head = cur;
+        return;
+    }
+    for (int i = 0; i < pos; i++){
+        if (cur == NULL){
+            return;
+        }
+        pre = cur;
+        cur = cur->next;
+    }
+    
+    if (cur){
+        pre->next = cur->next;
+        free(cur);
+    }
+}
+
+//不用%的mod
+int getMod(int a, int b){
+    if (b == 0){
+        return -1;
+    }
+
+    int ans;
+    int c = a / b;
+    ans = a - (b * c);
+    return ans;
+}
 
 int main(){
     //int *p = (int *)0x8265;

@@ -5,7 +5,7 @@
 #define clear_bit(x, n) ((x) &= ~(1 << (n)))
 #define toggle_bit(x, n) ((x) ^= (1 << (n)))
 #define array_size(arr) (sizeof(arr) / sizeof(arr[0]))
-#define Max(a, b) ((a) > (b)) ? (a) : (b)
+#define Max(a, b) (((a) > (b)) ? (a) : (b))
 
 //判斷是否為2的冪次方
 int judge_pow2(unsigned int x){

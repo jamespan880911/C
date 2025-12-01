@@ -34,8 +34,8 @@ static dma_ring_t tx_ring;  // Driver → FW
 static dma_ring_t rx_ring;  // FW → Driver
 
 static SemaphoreHandle_t xIRQ_Sem;   // 模擬 IRQ
-static SemaphoreHandle_t xTxMutex;   // TX Ring 保護鎖
-static SemaphoreHandle_t xRxMutex;   // RX Ring 保護鎖
+static SemaphoreHandle_t xTxMutex;   // TX Ring lock
+static SemaphoreHandle_t xRxMutex;   // RX Ring lock
 
 static volatile uint8_t irq_masked = 0;
 static volatile uint8_t fw_sleep = 0;
