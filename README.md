@@ -38,7 +38,7 @@
 ├── algorithms/          # 基礎演算法 (Sorting, Binary Search, Math)
 ├── data_structures/     # 手刻資料結構 (Linked List, Queue, Stack, Tree)
 ├── projects/            # 完整的小型系統專案
-│   ├── freertos_sim/    # FreeRTOS 驅動模擬
+│   ├── freertos_sim/    # FreeRTOS 驅動模擬（main.c）
 │   └── smart_aquarium/  # 溫控系統實作
 ├── system_programming/  # 系統程式練習 (Bitwise Ops, Memory, String Utils)
 ├── leetcode/            # LeetCode 刷題紀錄 (Blind 75)
