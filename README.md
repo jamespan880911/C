@@ -9,7 +9,7 @@
 ## 🚀 Key Highlights 
 
 ### 1. FreeRTOS Wi-Fi Driver/Firmware Simulation
-> **⚠️ 註：完整專案代碼位於獨立 Repository，請點擊下方連結前往檢視。**
+> **⚠️ 註：完整專案程式碼位於獨立 Repository，請點擊下方連結前往檢視。**
 > 👉 **[前往專案：FreeRTOS-WiFi-Sim](https://github.com/jamespan880911/FreeRTOS-WiFi-Sim)**
 
 模擬 Wi-Fi 晶片驅動程式 (Driver) 與韌體 (Firmware) 之間的非同步通訊模型。
